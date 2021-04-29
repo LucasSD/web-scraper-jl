@@ -1,0 +1,61 @@
+import scrapy
+from scrapy.linkextractors import LinkExtractor
+from scrapy.spiders import CrawlSpider, Rule
+from scrapy.loader import ItemLoader
+from JohnLewis.items import JohnlewisItem
+
+import re
+
+class JlSpider(CrawlSpider):
+    name = 'JL'
+    use_google_cache = True
+    
+    start_urls = [f'https://www.johnlewis.com/browse/women/womens-jeans/_/N-7j5h?page={n}' for n in range(2, 4)] + ['https://www.johnlewis.com/browse/women/womens-jeans/_/N-7j5h']
+
+#might need to check follow=True/False
+    rules = (
+        Rule(LinkExtractor(allow=(r'/p\d{7}'), 
+                           deny=('home-garden', 'furniture-lights', 'electricals', 'women', 'men', 'beauty', 'gifts',
+                           'sale', 'brands', 'baby-child', 'sport-leisure')), 
+                           callback='parse_item', follow=False),)
+
+    def parse_item(self, response):
+        item = JohnlewisItem()
+       
+        '''for d in details:
+            product_loader = ItemLoader(item=JohnlewisItem(), selector=d)
+            product_loader.add_css('careandcomposition', '.attribute--3s1DY::text')
+
+            print('\r\n')
+            yield product_loader.load_item()'''
+
+        item['Description'] = response.css('h1::text').get().split(',')[0] # includes brand and colour where it's given
+        #item['description'] = response.css('#confirmation-anchor-desktop::text').extract() # alternative selector
+        #item['Productnumber'] = response.css('ul.ul--1jQxe li::text').extract()[0]
+        item['Category'] = 'jeans'
+        item['Url'] = response.url.split('//')[-1]
+
+        if response.css('.price--29-DM > span::text').get(): 
+            item['Price'] = response.css('.price--29-DM > span::text').get().lstrip('£')
+        
+        for text in response.css('.attribute--3s1DY::text').extract():
+            if '%' in text:
+
+                item['Composition'] = text
+                materials = ['polyester', 'elastane', 'viscose', 'polyamide', 'cotton', 'linen',
+                            'triacetate', 'lyocell', 'velvet', 'lace', 'wool', 'silk', 'satin', 
+                            'chiffon', 'leather', 'polyurethane', 'suede', 'spandex',
+                            'acrylic', 'nylon', 'cashmere', 'cupro', 'rayon', 'modal', 'acetate']
+
+                for m in materials: 
+                    item[m.capitalize()] = re.findall(f'(\d{{1,3}})%\s{m}', text, re.I)[0] if m in text else '0'
+
+                if 'LENZING' in text: item['Lenzing_Ecovero'] = re.findall(r'(\d{1,3})%\sLENZING', text, re.I)
+                elif 'lenzing' in text: item['Lenzing_Ecovero'] = re.findall(r'(\d{1,3})%\slenzing', text, re.I) 
+                elif 'ECOVERO' in text: item['Lenzing_Ecovero'] = re.findall(r'(\d{1,3})%\sECOVERO', text, re.I) 
+
+                break
+
+        yield item
+
+        #list_of_info = response.css('.productSpecificationBox--3x5eL li').extract()
