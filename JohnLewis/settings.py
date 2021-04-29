@@ -63,9 +63,9 @@ EXTENSIONS = {
     'scrapy.extensions.closespider.CloseSpider': 100,
 }
 
-CLOSESPIDER_PAGECOUNT = 200
+CLOSESPIDER_PAGECOUNT = 10
 #CONCURRENT_REQUESTS = 16
-CLOSESPIDER_ITEMCOUNT = 200
+CLOSESPIDER_ITEMCOUNT = 10
 #CLOSESPIDER_ERRORCOUNT = 2
         
 # Configure item pipelines
@@ -74,12 +74,8 @@ CLOSESPIDER_ITEMCOUNT = 200
 #    'JohnLewis.pipelines.JohnlewisPipeline': 300,
 #}
 
-FEED_FORMAT = 'csv' # can easily change to xml or csv
+FEED_FORMAT = 'csv' 
 FEED_URI = 'JL.csv'
-
-#easier way to list these??
-#FEED_EXPORT_FIELDS = ['Category', 'Description', 'Price', 'Productnumber', 'Composition'] + [m.capitalize() for m in materials]\
-#                     + ['Url']
 
 FEED_EXPORT_FIELDS = ['Category', 'Description', 'Price', 'Composition', 'Polyester',
                       'Elastane', 'Viscose', 'Polyamide', 'Triacetate', 'Lyocell', 'Lenzing_Ecovero', 'Cotton', 'Linen', 

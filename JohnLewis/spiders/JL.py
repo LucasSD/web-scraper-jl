@@ -12,7 +12,6 @@ class JlSpider(CrawlSpider):
     
     start_urls = [f'https://www.johnlewis.com/browse/women/womens-jeans/_/N-7j5h?page={n}' for n in range(2, 4)] + ['https://www.johnlewis.com/browse/women/womens-jeans/_/N-7j5h']
 
-#might need to check follow=True/False
     rules = (
         Rule(LinkExtractor(allow=(r'/p\d{7}'), 
                            deny=('home-garden', 'furniture-lights', 'electricals', 'women', 'men', 'beauty', 'gifts',
@@ -22,16 +21,8 @@ class JlSpider(CrawlSpider):
     def parse_item(self, response):
         item = JohnlewisItem()
        
-        '''for d in details:
-            product_loader = ItemLoader(item=JohnlewisItem(), selector=d)
-            product_loader.add_css('careandcomposition', '.attribute--3s1DY::text')
-
-            print('\r\n')
-            yield product_loader.load_item()'''
-
         item['Description'] = response.css('h1::text').get().split(',')[0] # includes brand and colour where it's given
         #item['description'] = response.css('#confirmation-anchor-desktop::text').extract() # alternative selector
-        #item['Productnumber'] = response.css('ul.ul--1jQxe li::text').extract()[0]
         item['Category'] = 'jeans'
         item['Url'] = response.url.split('//')[-1]
 
@@ -57,5 +48,3 @@ class JlSpider(CrawlSpider):
                 break
 
         yield item
-
-        #list_of_info = response.css('.productSpecificationBox--3x5eL li').extract()

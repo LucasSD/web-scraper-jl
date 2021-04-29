@@ -71,12 +71,6 @@ class JohnlewisDownloaderMiddleware:
     def process_request(self, request, spider):
         # Called for each request that goes through the downloader
         # middleware.
-        
-        '''if 'sorry' in request.url:
-            page = random.randint(2, 32)
-            new_url = f'https://webcache.googleusercontent.com/search?q=cache:https://www.johnlewis.com/browse/women/womens-dresses/_/N-flw?page={page}'
-            request = request.replace(url=new_url)
-            return request'''
 
         if spider.use_google_cache == True and 'googleusercontent' not in request.url:
             new_url = 'https://webcache.googleusercontent.com/search?q=cache:' + request.url
