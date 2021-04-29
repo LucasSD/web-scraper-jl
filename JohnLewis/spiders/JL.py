@@ -6,44 +6,103 @@ from JohnLewis.items import JohnlewisItem
 
 import re
 
+
 class JlSpider(CrawlSpider):
-    name = 'JL'
+    name = "JL"
     use_google_cache = True
-    
-    start_urls = [f'https://www.johnlewis.com/browse/women/womens-jeans/_/N-7j5h?page={n}' for n in range(2, 4)] + ['https://www.johnlewis.com/browse/women/womens-jeans/_/N-7j5h']
+
+    start_urls = [
+        f"https://www.johnlewis.com/browse/women/womens-jeans/_/N-7j5h?page={n}"
+        for n in range(2, 4)
+    ] + ["https://www.johnlewis.com/browse/women/womens-jeans/_/N-7j5h"]
 
     rules = (
-        Rule(LinkExtractor(allow=(r'/p\d{7}'), 
-                           deny=('home-garden', 'furniture-lights', 'electricals', 'women', 'men', 'beauty', 'gifts',
-                           'sale', 'brands', 'baby-child', 'sport-leisure')), 
-                           callback='parse_item', follow=False),)
+        Rule(
+            LinkExtractor(
+                allow=(r"/p\d{7}"),
+                deny=(
+                    "home-garden",
+                    "furniture-lights",
+                    "electricals",
+                    "women",
+                    "men",
+                    "beauty",
+                    "gifts",
+                    "sale",
+                    "brands",
+                    "baby-child",
+                    "sport-leisure",
+                ),
+            ),
+            callback="parse_item",
+            follow=False,
+        ),
+    )
 
     def parse_item(self, response):
         item = JohnlewisItem()
-       
-        item['Description'] = response.css('h1::text').get().split(',')[0] # includes brand and colour where it's given
-        #item['description'] = response.css('#confirmation-anchor-desktop::text').extract() # alternative selector
-        item['Category'] = 'jeans'
-        item['Url'] = response.url.split('//')[-1]
 
-        if response.css('.price--29-DM > span::text').get(): 
-            item['Price'] = response.css('.price--29-DM > span::text').get().lstrip('£')
-        
-        for text in response.css('.attribute--3s1DY::text').extract():
-            if '%' in text:
+        item["Description"] = (
+            response.css("h1::text").get().split(",")[0]
+        )  # includes brand and colour where it's given
+        # item['description'] = response.css('#confirmation-anchor-desktop::text').extract() # alternative selector
+        item["Category"] = "jeans"
+        item["Url"] = response.url.split("//")[-1]
 
-                item['Composition'] = text
-                materials = ['polyester', 'elastane', 'viscose', 'polyamide', 'cotton', 'linen',
-                            'triacetate', 'lyocell', 'velvet', 'lace', 'wool', 'silk', 'satin', 
-                            'chiffon', 'leather', 'polyurethane', 'suede', 'spandex',
-                            'acrylic', 'nylon', 'cashmere', 'cupro', 'rayon', 'modal', 'acetate']
+        if response.css(".price--29-DM > span::text").get():
+            item["Price"] = response.css(".price--29-DM > span::text").get().lstrip("£")
 
-                for m in materials: 
-                    item[m.capitalize()] = re.findall(f'(\d{{1,3}})%\s{m}', text, re.I)[0] if m in text else '0'
+        for text in response.css(".attribute--3s1DY::text").extract():
+            if "%" in text:
 
-                if 'LENZING' in text: item['Lenzing_Ecovero'] = re.findall(r'(\d{1,3})%\sLENZING', text, re.I)
-                elif 'lenzing' in text: item['Lenzing_Ecovero'] = re.findall(r'(\d{1,3})%\slenzing', text, re.I) 
-                elif 'ECOVERO' in text: item['Lenzing_Ecovero'] = re.findall(r'(\d{1,3})%\sECOVERO', text, re.I) 
+                item["Composition"] = text
+                materials = [
+                    "polyester",
+                    "elastane",
+                    "viscose",
+                    "polyamide",
+                    "cotton",
+                    "linen",
+                    "triacetate",
+                    "lyocell",
+                    "velvet",
+                    "lace",
+                    "wool",
+                    "silk",
+                    "satin",
+                    "chiffon",
+                    "leather",
+                    "polyurethane",
+                    "suede",
+                    "spandex",
+                    "acrylic",
+                    "nylon",
+                    "cashmere",
+                    "cupro",
+                    "rayon",
+                    "modal",
+                    "acetate",
+                ]
+
+                for m in materials:
+                    item[m.capitalize()] = (
+                        re.findall(f"(\d{{1,3}})%\s{m}", text, re.I)[0]
+                        if m in text
+                        else "0"
+                    )
+
+                if "LENZING" in text:
+                    item["Lenzing_Ecovero"] = re.findall(
+                        r"(\d{1,3})%\sLENZING", text, re.I
+                    )
+                elif "lenzing" in text:
+                    item["Lenzing_Ecovero"] = re.findall(
+                        r"(\d{1,3})%\slenzing", text, re.I
+                    )
+                elif "ECOVERO" in text:
+                    item["Lenzing_Ecovero"] = re.findall(
+                        r"(\d{1,3})%\sECOVERO", text, re.I
+                    )
 
                 break
 

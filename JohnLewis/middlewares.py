@@ -54,7 +54,8 @@ class JohnlewisSpiderMiddleware:
         pass
 
     def spider_opened(self, spider):
-        spider.logger.info('Spider opened: %s' % spider.name)
+        spider.logger.info("Spider opened: %s" % spider.name)
+
 
 class JohnlewisDownloaderMiddleware:
     # Not all methods need to be defined. If a method is not defined,
@@ -72,8 +73,10 @@ class JohnlewisDownloaderMiddleware:
         # Called for each request that goes through the downloader
         # middleware.
 
-        if spider.use_google_cache == True and 'googleusercontent' not in request.url:
-            new_url = 'https://webcache.googleusercontent.com/search?q=cache:' + request.url
+        if spider.use_google_cache == True and "googleusercontent" not in request.url:
+            new_url = (
+                "https://webcache.googleusercontent.com/search?q=cache:" + request.url
+            )
             request = request.replace(url=new_url)
             return request
 
@@ -104,4 +107,4 @@ class JohnlewisDownloaderMiddleware:
         pass
 
     def spider_opened(self, spider):
-        spider.logger.info('Spider opened: %s' % spider.name)
+        spider.logger.info("Spider opened: %s" % spider.name)

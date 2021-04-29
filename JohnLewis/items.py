@@ -1,8 +1,9 @@
 import scrapy
 
+
 class JohnlewisItem(scrapy.Item):
-    #brand = scrapy.Field()
-    #Productnumber = scrapy.Field()
+    # brand = scrapy.Field()
+    # Productnumber = scrapy.Field()
     Url = scrapy.Field()
     Category = scrapy.Field()
     Price = scrapy.Field()
