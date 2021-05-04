@@ -75,7 +75,7 @@ CLOSESPIDER_ITEMCOUNT = 10
 # }
 
 FEED_FORMAT = "csv"
-FEED_URI = "JL.csv"
+FEED_URI = "jl_output.csv"
 
 FEED_EXPORT_FIELDS = [
     "Category",
