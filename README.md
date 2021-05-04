@@ -3,11 +3,11 @@
 This project is all about scraping websites to retrieve data using the Python framework scrapy. My wife is interested in clothing, fashion and statistics so we decided to scrape the UK John Lewis website for our own research and personal interest.
 The aim was to build an effective and ethical scraping script, so I scrape via google cache at a very pedestrian rate of about two clicks per minute.
 
-![](JL_pic.png)
+![](jl_cover.png)
 
 ## Quick Demo
 
-![](JL_scrape_demo.gif)
+![](demo.gif)
 
 ## Technologies
 
