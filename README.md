@@ -1,6 +1,6 @@
 # Introduction
 
-This project is all about scraping websites to retrieve data using the python framework Scrapy. My wife is interested in clothing, fashion and statistics so we decided to scrape the UK John Lewis website for our own research and personal interest.
+This project is all about scraping websites to retrieve data using the Python framework scrapy. My wife is interested in clothing, fashion and statistics so we decided to scrape the UK John Lewis website for our own research and personal interest.
 The aim was to build an effective and ethical scraping script, so I scrape via google cache at a very pedestrian rate of about two clicks per minute.
 
 ![](JL_pic.png)
@@ -22,6 +22,6 @@ Some errors produced by the parse_item method in the JL.py file result in data l
 
 Still being developed. 
 ###### To do:
-- use newer Scrapy implementation of data feed to a CSV file
+- use newer scrapy implementation of data feed to a CSV file
 - improve parse_item method in JL.py to maximise data collection
-- improve efficiency and post-processing using Scrapy built-in features
+- improve efficiency and post-processing using scrapy built-in features
