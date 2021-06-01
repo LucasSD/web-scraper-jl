@@ -11,7 +11,7 @@ The aim was to build an effective and ethical scraping script, so I scrape via g
 
 ## Technologies
 
-Python 3.8.5, Scrapy 2.4.1
+Python 3.9, Scrapy 2.4.1
 
 ## Known Issues
 
