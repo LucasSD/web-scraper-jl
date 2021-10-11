@@ -45,7 +45,7 @@ class JlSpider(CrawlSpider):
             response.css("h1::text").get().split(",")[0]
         )  # includes brand and colour where it's given
         # item['description'] = response.css('#confirmation-anchor-desktop::text').extract() # alternative selector
-        item["Category"] = "jeans"
+        item["Category"] = "dresses"
         item["Url"] = response.url.split("//")[-1]
 
         if response.css(".ProductPrice_price__DcrIr > span::text").get():
