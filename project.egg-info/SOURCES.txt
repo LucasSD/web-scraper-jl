@@ -1,0 +1,14 @@
+README.md
+setup.py
+JohnLewis/__init__.py
+JohnLewis/items.py
+JohnLewis/middlewares.py
+JohnLewis/pipelines.py
+JohnLewis/settings.py
+JohnLewis/spiders/__init__.py
+JohnLewis/spiders/jl_spider.py
+project.egg-info/PKG-INFO
+project.egg-info/SOURCES.txt
+project.egg-info/dependency_links.txt
+project.egg-info/entry_points.txt
+project.egg-info/top_level.txt
