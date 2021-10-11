@@ -48,8 +48,8 @@ class JlSpider(CrawlSpider):
         item["Category"] = "jeans"
         item["Url"] = response.url.split("//")[-1]
 
-        if response.css(".price--29-DM > span::text").get():
-            item["Price"] = response.css(".price--29-DM > span::text").get().lstrip("£")
+        if response.css(".ProductPrice_price__DcrIr > span::text").get():
+            item["Price"] = response.css(".ProductPrice_price__DcrIr > span::text").get().lstrip("£")
 
         for text in response.css(".attribute--3s1DY::text").extract():
             if "%" in text:
