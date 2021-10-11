@@ -11,9 +11,9 @@ class JlSpider(CrawlSpider):
     use_google_cache = True
 
     start_urls = [
-        f"https://www.johnlewis.com/browse/women/womens-jeans/_/N-7j5h?page={n}"
+        f"https://www.johnlewis.com/browse/women/womens-dresses/_/N-flw?page={n}"
         for n in range(2, 4)
-    ] + ["https://www.johnlewis.com/browse/women/womens-jeans/_/N-7j5h"]
+    ] + ["https://www.johnlewis.com/browse/women/womens-dresses/_/N-flw"]
 
     rules = (
         Rule(
@@ -51,7 +51,7 @@ class JlSpider(CrawlSpider):
         if response.css(".ProductPrice_price__DcrIr > span::text").get():
             item["Price"] = response.css(".ProductPrice_price__DcrIr > span::text").get().lstrip("£")
 
-        for text in response.css(".attribute--3s1DY::text").extract():
+        for text in response.css(".KeyAttributes_attribute__1O7Eo::text").extract():
             if "%" in text:
 
                 item["Composition"] = text
@@ -83,6 +83,7 @@ class JlSpider(CrawlSpider):
                     "acetate",
                 ]
 
+                # option to use.split() here to take the lining composition separately
                 for m in materials:
                     item[m.capitalize()] = (
                         re.findall(f"(\d{{1,3}})%\s{m}", text, re.I)[0]
