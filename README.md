@@ -20,7 +20,7 @@ Some errors produced by the parse_item method in the JL.py file result in data l
 
 ## Project Status
 
-Still being developed. 
+On hold. 
 ###### To do:
 - use newer scrapy implementation of data feed to a CSV file
 - improve parse_item method in JL.py to maximise data collection
